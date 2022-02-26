@@ -21,5 +21,11 @@ pnpm add -g framework-template-generator
 framework-template-generator
 ```
 
+> Abbreviated version of the command
+
+```
+ftg
+```
+
 # Available templates
 > #### [next-extensive-template](https://github.com/titsex/next-extensive-template) - Extensive template for NEXT.js with redux and redux-toolkit already set up. Bootstrap and bootstrap-icons are already included in the project. A separate bonus for beginners is that the project has examples of using redux and redux-toolkit in asynchronous mode.

@@ -6,7 +6,7 @@
   "repository": "github:titsex/framework-template-generator",
   "author": "titsex <titsex23@gmail.com> (https://github.com/titsex)",
   "bin": {
-    "framework-template-generator": "bin/ftg",
+    "framework-template-generator": "./build/index.js",
     "ftg": "./build/index.js"
   },
   "scripts": {
