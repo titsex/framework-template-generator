@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/framework-template-generator.svg)](https://badge.fury.io/js/framework-template-generator)
+
 # About
 
 > #### Generator of extensive and already configured templates for popular frameworks.
