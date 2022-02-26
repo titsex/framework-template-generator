@@ -1,0 +1,3 @@
+[submodule "src/templates/next-extensive-template"]
+	path = src/templates/next-extensive-template
+	url = https://github.com/titsex/next-extensive-template
