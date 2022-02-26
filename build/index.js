@@ -9,7 +9,7 @@ const template = (0, tslib_1.__importStar)(require("./utils"));
 const shell = (0, tslib_1.__importStar)(require("shelljs"));
 console.log('Hi! I am a framework template generator \n');
 const CHOICES = fs.readdirSync(path.join(__dirname, '..', 'src', 'templates'));
-const PACKAGE_MANAGERS = ['yarn', 'npm', 'pnpm (recommended)'];
+const PACKAGE_MANAGERS = ['yarn', 'npm', 'pnpm (recommended)', 'do not install dependencies'];
 const QUESTIONS = [
     {
         name: 'template',
@@ -21,11 +21,6 @@ const QUESTIONS = [
         name: 'name',
         type: 'input',
         message: 'Enter the name of your project: ',
-    },
-    {
-        name: 'dependencies',
-        type: 'confirm',
-        message: 'Install dependencies?',
     },
     {
         name: 'package-manager',
