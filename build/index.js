@@ -85,18 +85,15 @@ function postProcess(options, packageManager) {
     if (isNode) {
         shell.cd(options.targetPath);
         let result;
-        if (packageManager == 'npm') {
+        console.log(packageManager);
+        if (packageManager == 'npm')
             result = shell.exec('npm install');
-        }
-        else if (packageManager == 'yarn') {
+        else if (packageManager == 'yarn')
             result = shell.exec('yarn');
-        }
-        else if (packageManager === 'pnpm (recommended)') {
+        else if (packageManager === 'pnpm (recommended)')
             result = shell.exec('pnpm install');
-        }
-        else {
+        else
             return false;
-        }
         if (result.code !== 0) {
             return false;
         }

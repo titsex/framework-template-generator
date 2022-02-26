@@ -76,12 +76,12 @@ function createProject(projectPath: string) {
         console.log(`Folder ${projectPath} exists. Delete or use another name.`)
         return false
     }
-    fs.mkdirSync(projectPath)
 
+    fs.mkdirSync(projectPath)
     return true
 }
 
-const SKIP_FILES = ['node_modules', '.template.json', '.next', 'yarn.lock', 'package-lock.json']
+const SKIP_FILES = ['node_modules', '.template.json', 'yarn.lock', 'package-lock.json']
 
 function createDirectoryContents(templatePath: string, projectName: string) {
     const filesToCreate = fs.readdirSync(templatePath)
@@ -113,15 +113,10 @@ function postProcess(options: CliOptions, packageManager: string) {
         shell.cd(options.targetPath)
         let result: ShellString
 
-        if (packageManager == 'npm') {
-            result = shell.exec('npm install')
-        } else if (packageManager == 'yarn') {
-            result = shell.exec('yarn')
-        } else if (packageManager === 'pnpm (recommended)') {
-            result = shell.exec('pnpm install')
-        } else {
-            return false
-        }
+        if (packageManager == 'npm') result = shell.exec('npm install')
+        else if (packageManager == 'yarn') result = shell.exec('yarn')
+        else if (packageManager === 'pnpm (recommended)') result = shell.exec('pnpm install')
+        else return false
 
         if (result.code !== 0) {
             return false
