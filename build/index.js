@@ -33,7 +33,6 @@ const CURR_DIR = process.cwd();
 inquirer.prompt(QUESTIONS).then((answers) => {
     const projectChoice = answers['template'];
     const projectName = answers['name'];
-    const dependencies = answers['dependencies'];
     const packageManager = answers['package-manager'];
     const templatePath = path.join(__dirname, '..', 'src', 'templates', projectChoice);
     const targetPath = path.join(CURR_DIR, projectName);
@@ -47,9 +46,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
         return;
     }
     createDirectoryContents(templatePath, projectName);
-    if (dependencies) {
-        postProcess(options, packageManager);
-    }
+    postProcess(options, packageManager);
     console.log('\n Successfully!');
 });
 function createProject(projectPath) {
@@ -60,7 +57,7 @@ function createProject(projectPath) {
     fs.mkdirSync(projectPath);
     return true;
 }
-const SKIP_FILES = ['node_modules', '.template.json', '.next', 'yarn.lock', 'package-lock.json'];
+const SKIP_FILES = ['node_modules', '.template.json', 'yarn.lock', 'package-lock.json'];
 function createDirectoryContents(templatePath, projectName) {
     const filesToCreate = fs.readdirSync(templatePath);
     filesToCreate.forEach(file => {
@@ -85,7 +82,6 @@ function postProcess(options, packageManager) {
     if (isNode) {
         shell.cd(options.targetPath);
         let result;
-        console.log(packageManager);
         if (packageManager == 'npm')
             result = shell.exec('npm install');
         else if (packageManager == 'yarn')

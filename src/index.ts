@@ -45,7 +45,6 @@ const CURR_DIR = process.cwd()
 inquirer.prompt(QUESTIONS).then((answers: Answers) => {
     const projectChoice = answers['template']
     const projectName = answers['name']
-    const dependencies = answers['dependencies']
     const packageManager = answers['package-manager']
 
     const templatePath = path.join(__dirname, '..', 'src', 'templates', projectChoice)
@@ -63,10 +62,7 @@ inquirer.prompt(QUESTIONS).then((answers: Answers) => {
     }
 
     createDirectoryContents(templatePath, projectName)
-
-    if (dependencies) {
-        postProcess(options, packageManager)
-    }
+    postProcess(options, packageManager)
 
     console.log('\n Successfully!')
 })
