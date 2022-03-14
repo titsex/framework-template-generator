@@ -3,10 +3,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as inquirer from 'inquirer'
-import * as template from '@utils'
 import * as shell from 'shelljs'
 import { Answers } from 'inquirer'
 import { ShellString } from 'shelljs'
+import { templateRender } from '@utils'
 
 console.log('Hi! I am a framework template generator \n')
 
@@ -64,7 +64,12 @@ inquirer.prompt(QUESTIONS).then((answers: Answers) => {
     createDirectoryContents(templatePath, projectName)
     postProcess(options, packageManager)
 
-    console.log('\n Successfully!')
+    if (projectChoice === 'next-extensive-template' && packageManager !== 'do not install dependencies') {
+        const manager = packageManager.toString().replace(' (recommended)', '').trim()
+
+        shell.exec(`${manager} build`)
+        shell.exec(`${manager} start`)
+    } else console.log('\n Successfully!')
 })
 
 function createProject(projectPath: string) {
@@ -90,11 +95,15 @@ function createDirectoryContents(templatePath: string, projectName: string) {
         if (SKIP_FILES.indexOf(file) > -1) return
 
         if (stats.isFile()) {
-            let contents = fs.readFileSync(origFilePath, 'utf8')
-            contents = template.render(contents, { projectName })
+            let contents: string | Buffer = fs.readFileSync(
+                origFilePath,
+                /png|jpg|jpeg|ico/.test(origFilePath) ? 'base64' : 'utf8'
+            )
 
+            contents = templateRender(contents, { projectName })!
             const writePath = path.join(CURR_DIR, projectName, file)
-            fs.writeFileSync(writePath, contents, 'utf8')
+
+            fs.writeFileSync(writePath, contents, /png|jpg|jpeg|ico/.test(origFilePath) ? 'base64' : 'utf8')
         } else if (stats.isDirectory()) {
             fs.mkdirSync(path.join(CURR_DIR, projectName, file))
             createDirectoryContents(path.join(templatePath, file), path.join(projectName, file))

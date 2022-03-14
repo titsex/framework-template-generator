@@ -5,8 +5,8 @@ const tslib_1 = require("tslib");
 const fs = (0, tslib_1.__importStar)(require("fs"));
 const path = (0, tslib_1.__importStar)(require("path"));
 const inquirer = (0, tslib_1.__importStar)(require("inquirer"));
-const template = (0, tslib_1.__importStar)(require("./utils"));
 const shell = (0, tslib_1.__importStar)(require("shelljs"));
+const _utils_1 = require("./utils");
 console.log('Hi! I am a framework template generator \n');
 const CHOICES = fs.readdirSync(path.join(__dirname, '..', 'src', 'templates'));
 const PACKAGE_MANAGERS = ['yarn', 'npm', 'pnpm (recommended)', 'do not install dependencies'];
@@ -47,7 +47,13 @@ inquirer.prompt(QUESTIONS).then((answers) => {
     }
     createDirectoryContents(templatePath, projectName);
     postProcess(options, packageManager);
-    console.log('\n Successfully!');
+    if (projectChoice === 'next-extensive-template' && packageManager !== 'do not install dependencies') {
+        const manager = packageManager.toString().replace(' (recommended)', '').trim();
+        shell.exec(`${manager} build`);
+        shell.exec(`${manager} start`);
+    }
+    else
+        console.log('\n Successfully!');
 });
 function createProject(projectPath) {
     if (fs.existsSync(projectPath)) {
@@ -66,10 +72,10 @@ function createDirectoryContents(templatePath, projectName) {
         if (SKIP_FILES.indexOf(file) > -1)
             return;
         if (stats.isFile()) {
-            let contents = fs.readFileSync(origFilePath, 'utf8');
-            contents = template.render(contents, { projectName });
+            let contents = fs.readFileSync(origFilePath, /png|jpg|jpeg|ico/.test(origFilePath) ? 'base64' : 'utf8');
+            contents = (0, _utils_1.templateRender)(contents, { projectName });
             const writePath = path.join(CURR_DIR, projectName, file);
-            fs.writeFileSync(writePath, contents, 'utf8');
+            fs.writeFileSync(writePath, contents, /png|jpg|jpeg|ico/.test(origFilePath) ? 'base64' : 'utf8');
         }
         else if (stats.isDirectory()) {
             fs.mkdirSync(path.join(CURR_DIR, projectName, file));
