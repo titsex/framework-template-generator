@@ -1,6 +1,6 @@
 {
   "name": "framework-template-generator",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Generator of extensive and already configured templates for popular frameworks",
   "homepage": "https://github.com/titsex/framework-template-generator#readme",
   "repository": "github:titsex/framework-template-generator",
